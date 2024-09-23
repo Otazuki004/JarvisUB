@@ -1,11 +1,8 @@
-FROM python
+FROM node
 
-WORKDIR /root/Sophia
-
+WORKDIR /root/Jarvis
+COPY package*.json ./
+RUN npm install
 COPY . .
 
-RUN pip3 install --upgrade pip setuptools
-
-RUN pip3 install -U -r requirements.txt
-
-CMD ["python3", "-m", "Jarvis"]
+CMD ["node", "index.js"]
