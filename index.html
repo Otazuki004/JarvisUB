@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp QR Code</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #qr-code {
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        #status {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img id="qr-code" src="" alt="Scan the QR Code" />
+        <div id="status">Waiting for QR code...</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('qr', (src) => {
+            document.getElementById('qr-code').src = src;
+            document.getElementById('status').textContent = 'Scan the QR code with WhatsApp';
+        });
+
+        socket.on('ready', (message) => {
+            document.getElementById('status').textContent = message;
+        });
+
+        socket.on('disconnected', (message) => {
+            document.getElementById('status').textContent = message;
+        });
+    </script>
+</body>
+</html>
