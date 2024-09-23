@@ -2,7 +2,6 @@ const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const express = require('express');
 const fs = require('fs');
-const app = express();
 const path = require('path');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -59,10 +58,13 @@ client.on('message', async (message) => {
 
 client.initialize();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
