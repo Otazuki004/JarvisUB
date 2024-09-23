@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const socketIo = require('socket.io');
+const puppeteer = require('puppeteer-core');
 
 const SESSION_FILE_PATH = './whatsapp-session.json';
 let sessionData;
@@ -15,6 +16,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 const client = new Client({
     session: sessionData,
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
 });
 
 client.on('qr', (qr) => {
